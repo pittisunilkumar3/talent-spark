@@ -19,6 +19,8 @@ const GeneralSetting = require('./general_setting.model');
 const Job = require('./job.model');
 const EmailConfig = require('./email_config.model');
 const EmailTemplate = require('./email_template.model');
+const UserSkill = require('./user_skill.model');
+const EmployeeSkill = require('./employee_skill.model');
 
 // Define relationships between models here
 // Example: User.hasMany(Post);
@@ -179,6 +181,26 @@ if (dbType !== 'mongodb') {
 
   Employee.hasMany(EmailTemplate, { foreignKey: 'updated_by', as: 'UpdatedEmailTemplates' });
   EmailTemplate.belongsTo(Employee, { foreignKey: 'updated_by', as: 'UpdatedBy' });
+
+  // User Skill relationships
+  User.hasMany(UserSkill, { foreignKey: 'user_id', as: 'Skills' });
+  UserSkill.belongsTo(User, { foreignKey: 'user_id', as: 'User' });
+
+  Employee.hasMany(UserSkill, { foreignKey: 'created_by', as: 'CreatedUserSkills' });
+  UserSkill.belongsTo(Employee, { foreignKey: 'created_by', as: 'CreatedBy' });
+
+  Employee.hasMany(UserSkill, { foreignKey: 'updated_by', as: 'UpdatedUserSkills' });
+  UserSkill.belongsTo(Employee, { foreignKey: 'updated_by', as: 'UpdatedBy' });
+
+  // Employee Skill relationships
+  Employee.hasMany(EmployeeSkill, { foreignKey: 'employee_id', as: 'Skills' });
+  EmployeeSkill.belongsTo(Employee, { foreignKey: 'employee_id', as: 'Employee' });
+
+  Employee.hasMany(EmployeeSkill, { foreignKey: 'created_by', as: 'CreatedEmployeeSkills' });
+  EmployeeSkill.belongsTo(Employee, { foreignKey: 'created_by', as: 'CreatedBy' });
+
+  Employee.hasMany(EmployeeSkill, { foreignKey: 'updated_by', as: 'UpdatedEmployeeSkills' });
+  EmployeeSkill.belongsTo(Employee, { foreignKey: 'updated_by', as: 'UpdatedBy' });
 }
 
 const db = {
@@ -205,6 +227,8 @@ const db = {
   Job,
   EmailConfig,
   EmailTemplate,
+  UserSkill,
+  EmployeeSkill,
   dbType
 };
 

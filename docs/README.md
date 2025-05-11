@@ -20,6 +20,8 @@ Welcome to the Talent Spark API documentation. This folder contains detailed doc
 - [Jobs API Documentation](./jobs-api.md) - Documentation for the Jobs API
 - [Email Configurations API Documentation](./email-config-api.md) - Documentation for the Email Configurations API
 - [Email Templates API Documentation](./email-template-api.md) - Documentation for the Email Templates API
+- [User Skills API Documentation](./user-skills-api.md) - Documentation for the User Skills API
+- [Employee Skills API Documentation](./employee-skills-api.md) - Documentation for the Employee Skills API
 
 ## Getting Started
 
@@ -284,6 +286,38 @@ curl -X POST http://localhost:3001/api/email-templates \
     "from_name": "Support Team",
     "from_email": "support@example.com",
     "reply_to": "no-reply@example.com",
+    "created_by": 1
+  }'
+
+# Create user skill
+curl -X POST http://localhost:3001/api/user-skills/user/1 \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer YOUR_TOKEN_HERE" \
+  -d '{
+    "skill_data": {
+      "skill_name": "JavaScript",
+      "proficiency_level": "advanced",
+      "years_experience": 5,
+      "last_used": "2023-05-01",
+      "certifications": ["JavaScript Developer Certification"],
+      "description": "Proficient in modern JavaScript including ES6+ features"
+    },
+    "created_by": 1
+  }'
+
+# Create employee skill
+curl -X POST http://localhost:3001/api/employee-skills/employee/1 \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer YOUR_TOKEN_HERE" \
+  -d '{
+    "skill_data": {
+      "skill_name": "Project Management",
+      "proficiency_level": "expert",
+      "years_experience": 8,
+      "last_used": "2023-05-01",
+      "certifications": ["PMP", "PRINCE2"],
+      "description": "Experienced in managing large-scale IT projects"
+    },
     "created_by": 1
   }'
 ```

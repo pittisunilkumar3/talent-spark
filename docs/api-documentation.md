@@ -40,6 +40,8 @@ Authorization: Bearer YOUR_TOKEN_HERE
 | Jobs API | API for managing job listings | [Jobs API Documentation](./jobs-api.md) |
 | Email Configurations API | API for managing email configurations | [Email Configurations API Documentation](./email-config-api.md) |
 | Email Templates API | API for managing email templates | [Email Templates API Documentation](./email-template-api.md) |
+| User Skills API | API for managing user skills | [User Skills API Documentation](./user-skills-api.md) |
+| Employee Skills API | API for managing employee skills | [Employee Skills API Documentation](./employee-skills-api.md) |
 
 ## Error Handling
 

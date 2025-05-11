@@ -26,6 +26,8 @@ const generalSettingRoutes = require('./src/routes/general_setting.routes');
 const jobRoutes = require('./src/routes/job.routes');
 const emailConfigRoutes = require('./src/routes/email_config.routes');
 const emailTemplateRoutes = require('./src/routes/email_template.routes');
+const userSkillRoutes = require('./src/routes/user_skill.routes');
+const employeeSkillRoutes = require('./src/routes/employee_skill.routes');
 
 // Initialize express app
 const app = express();
@@ -64,6 +66,8 @@ app.use('/api/general-settings', generalSettingRoutes);
 app.use('/api/jobs', jobRoutes);
 app.use('/api/email-configs', emailConfigRoutes);
 app.use('/api/email-templates', emailTemplateRoutes);
+app.use('/api/user-skills', userSkillRoutes);
+app.use('/api/employee-skills', employeeSkillRoutes);
 
 // Error handling middleware
 app.use((err, req, res, next) => {
