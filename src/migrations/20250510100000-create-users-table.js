@@ -50,14 +50,15 @@ module.exports = {
         type: Sequelize.STRING(255),
         allowNull: true
       },
-      
+
       // Authentication Methods
       auth_type: {
-        type: Sequelize.DataTypes.SET('password', 'google', 'phone_otp'),
+        type: Sequelize.STRING(50),
         allowNull: false,
-        defaultValue: 'password'
+        defaultValue: 'password',
+        comment: 'Comma-separated list of auth types: password,google,phone_otp'
       },
-      
+
       // Google Auth Fields
       google_id: {
         type: Sequelize.STRING(255),
@@ -72,7 +73,7 @@ module.exports = {
         type: Sequelize.STRING(255),
         allowNull: true
       },
-      
+
       // Phone Authentication
       phone_verified: {
         type: Sequelize.BOOLEAN,
@@ -92,7 +93,7 @@ module.exports = {
         allowNull: false,
         defaultValue: 0
       },
-      
+
       // Email Verification
       email_verified: {
         type: Sequelize.BOOLEAN,
@@ -107,7 +108,7 @@ module.exports = {
         type: Sequelize.DATE,
         allowNull: true
       },
-      
+
       // Security
       last_login: {
         type: Sequelize.DATE,
@@ -143,7 +144,7 @@ module.exports = {
         type: Sequelize.STRING(255),
         allowNull: true
       },
-      
+
       // User Settings
       user_type: {
         type: Sequelize.ENUM('admin', 'staff', 'customer', 'vendor', 'system'),
@@ -169,7 +170,7 @@ module.exports = {
         allowNull: false,
         defaultValue: 'UTC'
       },
-      
+
       // Status
       is_active: {
         type: Sequelize.BOOLEAN,
@@ -187,7 +188,7 @@ module.exports = {
         allowNull: false,
         defaultValue: false
       },
-      
+
       // Audit
       created_by: {
         type: Sequelize.INTEGER,

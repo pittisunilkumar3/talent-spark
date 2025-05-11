@@ -6,7 +6,7 @@ let User;
 if (dbType === 'mongodb') {
   // MongoDB Schema
   const Schema = mongoose.Schema;
-  
+
   const userSchema = new Schema({
     employee_id: {
       type: Number,
@@ -44,14 +44,14 @@ if (dbType === 'mongodb') {
       type: String,
       trim: true
     },
-    
+
     // Authentication Methods
     auth_type: {
       type: [String],
       enum: ['password', 'google', 'phone_otp'],
       default: ['password']
     },
-    
+
     // Google Auth Fields
     google_id: {
       type: String,
@@ -67,7 +67,7 @@ if (dbType === 'mongodb') {
       type: String,
       trim: true
     },
-    
+
     // Phone Authentication
     phone_verified: {
       type: Boolean,
@@ -82,7 +82,7 @@ if (dbType === 'mongodb') {
       type: Number,
       default: 0
     },
-    
+
     // Email Verification
     email_verified: {
       type: Boolean,
@@ -93,7 +93,7 @@ if (dbType === 'mongodb') {
       trim: true
     },
     email_verification_sent_at: Date,
-    
+
     // Security
     last_login: Date,
     login_attempts: {
@@ -118,7 +118,7 @@ if (dbType === 'mongodb') {
       type: String,
       trim: true
     },
-    
+
     // User Settings
     user_type: {
       type: String,
@@ -134,7 +134,7 @@ if (dbType === 'mongodb') {
       type: String,
       default: 'UTC'
     },
-    
+
     // Status
     is_active: {
       type: Boolean,
@@ -148,7 +148,7 @@ if (dbType === 'mongodb') {
       type: Boolean,
       default: false
     },
-    
+
     // Audit
     created_by: Number,
     updated_by: Number,
@@ -231,14 +231,15 @@ if (dbType === 'mongodb') {
       type: Sequelize.DataTypes.STRING(255),
       allowNull: true
     },
-    
+
     // Authentication Methods
     auth_type: {
-      type: Sequelize.DataTypes.SET('password', 'google', 'phone_otp'),
+      type: Sequelize.DataTypes.STRING(50),
       allowNull: false,
-      defaultValue: 'password'
+      defaultValue: 'password',
+      comment: 'Comma-separated list of auth types: password,google,phone_otp'
     },
-    
+
     // Google Auth Fields
     google_id: {
       type: Sequelize.DataTypes.STRING(255),
@@ -253,7 +254,7 @@ if (dbType === 'mongodb') {
       type: Sequelize.DataTypes.STRING(255),
       allowNull: true
     },
-    
+
     // Phone Authentication
     phone_verified: {
       type: Sequelize.DataTypes.BOOLEAN,
@@ -273,7 +274,7 @@ if (dbType === 'mongodb') {
       allowNull: false,
       defaultValue: 0
     },
-    
+
     // Email Verification
     email_verified: {
       type: Sequelize.DataTypes.BOOLEAN,
@@ -288,7 +289,7 @@ if (dbType === 'mongodb') {
       type: Sequelize.DataTypes.DATE,
       allowNull: true
     },
-    
+
     // Security
     last_login: {
       type: Sequelize.DataTypes.DATE,
@@ -324,7 +325,7 @@ if (dbType === 'mongodb') {
       type: Sequelize.DataTypes.STRING(255),
       allowNull: true
     },
-    
+
     // User Settings
     user_type: {
       type: Sequelize.DataTypes.ENUM('admin', 'staff', 'customer', 'vendor', 'system'),
@@ -349,7 +350,7 @@ if (dbType === 'mongodb') {
       allowNull: false,
       defaultValue: 'UTC'
     },
-    
+
     // Status
     is_active: {
       type: Sequelize.DataTypes.BOOLEAN,
@@ -367,7 +368,7 @@ if (dbType === 'mongodb') {
       allowNull: false,
       defaultValue: false
     },
-    
+
     // Audit
     created_by: {
       type: Sequelize.DataTypes.INTEGER,

@@ -24,6 +24,8 @@ const paymentConfigurationRoutes = require('./src/routes/payment_configuration.r
 const socialMediaLinkRoutes = require('./src/routes/social_media_link.routes');
 const generalSettingRoutes = require('./src/routes/general_setting.routes');
 const jobRoutes = require('./src/routes/job.routes');
+const emailConfigRoutes = require('./src/routes/email_config.routes');
+const emailTemplateRoutes = require('./src/routes/email_template.routes');
 
 // Initialize express app
 const app = express();
@@ -60,6 +62,8 @@ app.use('/api/payment-configurations', paymentConfigurationRoutes);
 app.use('/api/social-media-links', socialMediaLinkRoutes);
 app.use('/api/general-settings', generalSettingRoutes);
 app.use('/api/jobs', jobRoutes);
+app.use('/api/email-configs', emailConfigRoutes);
+app.use('/api/email-templates', emailTemplateRoutes);
 
 // Error handling middleware
 app.use((err, req, res, next) => {

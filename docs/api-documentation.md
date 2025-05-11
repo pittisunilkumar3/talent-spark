@@ -38,6 +38,8 @@ Authorization: Bearer YOUR_TOKEN_HERE
 | Social Media Links API | API for managing social media links | [Social Media Links API Documentation](./social-media-links-api.md) |
 | General Settings API | API for managing system-wide general settings | [General Settings API Documentation](./general-settings-api.md) |
 | Jobs API | API for managing job listings | [Jobs API Documentation](./jobs-api.md) |
+| Email Configurations API | API for managing email configurations | [Email Configurations API Documentation](./email-config-api.md) |
+| Email Templates API | API for managing email templates | [Email Templates API Documentation](./email-template-api.md) |
 
 ## Error Handling
 

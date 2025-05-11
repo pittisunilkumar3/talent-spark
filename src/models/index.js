@@ -17,6 +17,8 @@ const PaymentConfiguration = require('./payment_configuration.model');
 const SocialMediaLink = require('./social_media_link.model');
 const GeneralSetting = require('./general_setting.model');
 const Job = require('./job.model');
+const EmailConfig = require('./email_config.model');
+const EmailTemplate = require('./email_template.model');
 
 // Define relationships between models here
 // Example: User.hasMany(Post);
@@ -163,6 +165,20 @@ if (dbType !== 'mongodb') {
 
   Employee.hasMany(Job, { foreignKey: 'updated_by', as: 'UpdatedJobs' });
   Job.belongsTo(Employee, { foreignKey: 'updated_by', as: 'UpdatedBy' });
+
+  // Email Configuration relationships
+  Employee.hasMany(EmailConfig, { foreignKey: 'created_by', as: 'CreatedEmailConfigs' });
+  EmailConfig.belongsTo(Employee, { foreignKey: 'created_by', as: 'CreatedBy' });
+
+  Employee.hasMany(EmailConfig, { foreignKey: 'updated_by', as: 'UpdatedEmailConfigs' });
+  EmailConfig.belongsTo(Employee, { foreignKey: 'updated_by', as: 'UpdatedBy' });
+
+  // Email Template relationships
+  Employee.hasMany(EmailTemplate, { foreignKey: 'created_by', as: 'CreatedEmailTemplates' });
+  EmailTemplate.belongsTo(Employee, { foreignKey: 'created_by', as: 'CreatedBy' });
+
+  Employee.hasMany(EmailTemplate, { foreignKey: 'updated_by', as: 'UpdatedEmailTemplates' });
+  EmailTemplate.belongsTo(Employee, { foreignKey: 'updated_by', as: 'UpdatedBy' });
 }
 
 const db = {
@@ -187,6 +203,8 @@ const db = {
   SocialMediaLink,
   GeneralSetting,
   Job,
+  EmailConfig,
+  EmailTemplate,
   dbType
 };
 

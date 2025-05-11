@@ -18,6 +18,8 @@ Welcome to the Talent Spark API documentation. This folder contains detailed doc
 - [Social Media Links API Documentation](./social-media-links-api.md) - Documentation for the Social Media Links API
 - [General Settings API Documentation](./general-settings-api.md) - Documentation for the General Settings API
 - [Jobs API Documentation](./jobs-api.md) - Documentation for the Jobs API
+- [Email Configurations API Documentation](./email-config-api.md) - Documentation for the Email Configurations API
+- [Email Templates API Documentation](./email-template-api.md) - Documentation for the Email Templates API
 
 ## Getting Started
 
@@ -241,6 +243,47 @@ curl -X POST http://localhost:3001/api/jobs \
     "location_state": "California",
     "location_country": "USA",
     "status": "published",
+    "created_by": 1
+  }'
+
+# Create email configuration
+curl -X POST http://localhost:3001/api/email-configs \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer YOUR_TOKEN_HERE" \
+  -d '{
+    "email_type": "SMTP",
+    "smtp_server": "smtp.example.com",
+    "smtp_port": 587,
+    "smtp_username": "user@example.com",
+    "smtp_password": "password123",
+    "ssl_tls": "tls",
+    "smtp_auth": true,
+    "from_email": "noreply@example.com",
+    "from_name": "Example Company",
+    "reply_to_email": "support@example.com",
+    "is_active": true,
+    "is_default": true,
+    "created_by": 1
+  }'
+
+# Create email template
+curl -X POST http://localhost:3001/api/email-templates \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer YOUR_TOKEN_HERE" \
+  -d '{
+    "template_code": "welcome_email",
+    "name": "Welcome Email",
+    "subject": "Welcome to Our Platform",
+    "body_html": "<h1>Welcome!</h1><p>Thank you for joining our platform, {NAME}.</p>",
+    "body_text": "Welcome! Thank you for joining our platform, {NAME}.",
+    "variables": "NAME",
+    "email_type": "transactional",
+    "description": "Sent to new users after registration",
+    "is_active": true,
+    "is_system": false,
+    "from_name": "Support Team",
+    "from_email": "support@example.com",
+    "reply_to": "no-reply@example.com",
     "created_by": 1
   }'
 ```
