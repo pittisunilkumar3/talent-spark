@@ -23,6 +23,8 @@ const UserSkill = require('./user_skill.model');
 const EmployeeSkill = require('./employee_skill.model');
 const EmployeeInterviewSchedule = require('./employee_interview_schedule.model');
 const UserInterviewSchedule = require('./user_interview_schedule.model');
+const EmployeeInterviewCalendarEvent = require('./employee_interview_calendar_event.model');
+const UserInterviewCalendarEvent = require('./user_interview_calendar_event.model');
 
 // Define relationships between models here
 // Example: User.hasMany(Post);
@@ -229,6 +231,14 @@ if (dbType !== 'mongodb') {
 
   Employee.hasMany(UserInterviewSchedule, { foreignKey: 'updated_by', as: 'UpdatedUserInterviews' });
   UserInterviewSchedule.belongsTo(Employee, { foreignKey: 'updated_by', as: 'UpdatedBy' });
+
+  // Employee Interview Calendar Event relationships
+  EmployeeInterviewSchedule.hasMany(EmployeeInterviewCalendarEvent, { foreignKey: 'interview_id', as: 'CalendarEvents' });
+  EmployeeInterviewCalendarEvent.belongsTo(EmployeeInterviewSchedule, { foreignKey: 'interview_id', as: 'Interview' });
+
+  // User Interview Calendar Event relationships
+  UserInterviewSchedule.hasMany(UserInterviewCalendarEvent, { foreignKey: 'interview_id', as: 'CalendarEvents' });
+  UserInterviewCalendarEvent.belongsTo(UserInterviewSchedule, { foreignKey: 'interview_id', as: 'Interview' });
 }
 
 const db = {
@@ -259,6 +269,8 @@ const db = {
   EmployeeSkill,
   EmployeeInterviewSchedule,
   UserInterviewSchedule,
+  EmployeeInterviewCalendarEvent,
+  UserInterviewCalendarEvent,
   dbType
 };
 

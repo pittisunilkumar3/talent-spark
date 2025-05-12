@@ -30,6 +30,8 @@ const userSkillRoutes = require('./src/routes/user_skill.routes');
 const employeeSkillRoutes = require('./src/routes/employee_skill.routes');
 const employeeInterviewScheduleRoutes = require('./src/routes/employee_interview_schedule.routes');
 const userInterviewScheduleRoutes = require('./src/routes/user_interview_schedule.routes');
+const employeeInterviewCalendarEventRoutes = require('./src/routes/employee_interview_calendar_event.routes');
+const userInterviewCalendarEventRoutes = require('./src/routes/user_interview_calendar_event.routes');
 
 // Initialize express app
 const app = express();
@@ -72,6 +74,8 @@ app.use('/api/user-skills', userSkillRoutes);
 app.use('/api/employee-skills', employeeSkillRoutes);
 app.use('/api/employee-interview-schedules', employeeInterviewScheduleRoutes);
 app.use('/api/user-interview-schedules', userInterviewScheduleRoutes);
+app.use('/api/employee-interview-calendar-events', employeeInterviewCalendarEventRoutes);
+app.use('/api/user-interview-calendar-events', userInterviewCalendarEventRoutes);
 
 // Error handling middleware
 app.use((err, req, res, next) => {
