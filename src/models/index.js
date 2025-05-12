@@ -21,6 +21,8 @@ const EmailConfig = require('./email_config.model');
 const EmailTemplate = require('./email_template.model');
 const UserSkill = require('./user_skill.model');
 const EmployeeSkill = require('./employee_skill.model');
+const EmployeeInterviewSchedule = require('./employee_interview_schedule.model');
+const UserInterviewSchedule = require('./user_interview_schedule.model');
 
 // Define relationships between models here
 // Example: User.hasMany(Post);
@@ -201,6 +203,32 @@ if (dbType !== 'mongodb') {
 
   Employee.hasMany(EmployeeSkill, { foreignKey: 'updated_by', as: 'UpdatedEmployeeSkills' });
   EmployeeSkill.belongsTo(Employee, { foreignKey: 'updated_by', as: 'UpdatedBy' });
+
+  // Employee Interview Schedule relationships
+  Employee.hasMany(EmployeeInterviewSchedule, { foreignKey: 'employee_id', as: 'InterviewSchedules' });
+  EmployeeInterviewSchedule.belongsTo(Employee, { foreignKey: 'employee_id', as: 'Employee' });
+
+  Job.hasMany(EmployeeInterviewSchedule, { foreignKey: 'job_id', as: 'EmployeeInterviews' });
+  EmployeeInterviewSchedule.belongsTo(Job, { foreignKey: 'job_id', as: 'Job' });
+
+  Employee.hasMany(EmployeeInterviewSchedule, { foreignKey: 'created_by', as: 'CreatedEmployeeInterviews' });
+  EmployeeInterviewSchedule.belongsTo(Employee, { foreignKey: 'created_by', as: 'CreatedBy' });
+
+  Employee.hasMany(EmployeeInterviewSchedule, { foreignKey: 'updated_by', as: 'UpdatedEmployeeInterviews' });
+  EmployeeInterviewSchedule.belongsTo(Employee, { foreignKey: 'updated_by', as: 'UpdatedBy' });
+
+  // User Interview Schedule relationships
+  User.hasMany(UserInterviewSchedule, { foreignKey: 'user_id', as: 'InterviewSchedules' });
+  UserInterviewSchedule.belongsTo(User, { foreignKey: 'user_id', as: 'User' });
+
+  Job.hasMany(UserInterviewSchedule, { foreignKey: 'job_id', as: 'UserInterviews' });
+  UserInterviewSchedule.belongsTo(Job, { foreignKey: 'job_id', as: 'Job' });
+
+  Employee.hasMany(UserInterviewSchedule, { foreignKey: 'created_by', as: 'CreatedUserInterviews' });
+  UserInterviewSchedule.belongsTo(Employee, { foreignKey: 'created_by', as: 'CreatedBy' });
+
+  Employee.hasMany(UserInterviewSchedule, { foreignKey: 'updated_by', as: 'UpdatedUserInterviews' });
+  UserInterviewSchedule.belongsTo(Employee, { foreignKey: 'updated_by', as: 'UpdatedBy' });
 }
 
 const db = {
@@ -229,6 +257,8 @@ const db = {
   EmailTemplate,
   UserSkill,
   EmployeeSkill,
+  EmployeeInterviewSchedule,
+  UserInterviewSchedule,
   dbType
 };
 

@@ -28,6 +28,8 @@ const emailConfigRoutes = require('./src/routes/email_config.routes');
 const emailTemplateRoutes = require('./src/routes/email_template.routes');
 const userSkillRoutes = require('./src/routes/user_skill.routes');
 const employeeSkillRoutes = require('./src/routes/employee_skill.routes');
+const employeeInterviewScheduleRoutes = require('./src/routes/employee_interview_schedule.routes');
+const userInterviewScheduleRoutes = require('./src/routes/user_interview_schedule.routes');
 
 // Initialize express app
 const app = express();
@@ -68,6 +70,8 @@ app.use('/api/email-configs', emailConfigRoutes);
 app.use('/api/email-templates', emailTemplateRoutes);
 app.use('/api/user-skills', userSkillRoutes);
 app.use('/api/employee-skills', employeeSkillRoutes);
+app.use('/api/employee-interview-schedules', employeeInterviewScheduleRoutes);
+app.use('/api/user-interview-schedules', userInterviewScheduleRoutes);
 
 // Error handling middleware
 app.use((err, req, res, next) => {
