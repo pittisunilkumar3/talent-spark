@@ -25,6 +25,7 @@ const EmployeeInterviewSchedule = require('./employee_interview_schedule.model')
 const UserInterviewSchedule = require('./user_interview_schedule.model');
 const EmployeeInterviewCalendarEvent = require('./employee_interview_calendar_event.model');
 const UserInterviewCalendarEvent = require('./user_interview_calendar_event.model');
+const TalentSparkConfiguration = require('./talent_spark_configuration.model');
 
 // Define relationships between models here
 // Example: User.hasMany(Post);
@@ -239,6 +240,16 @@ if (dbType !== 'mongodb') {
   // User Interview Calendar Event relationships
   UserInterviewSchedule.hasMany(UserInterviewCalendarEvent, { foreignKey: 'interview_id', as: 'CalendarEvents' });
   UserInterviewCalendarEvent.belongsTo(UserInterviewSchedule, { foreignKey: 'interview_id', as: 'Interview' });
+
+  // Talent Spark Configuration relationships
+  Branch.hasMany(TalentSparkConfiguration, { foreignKey: 'branch_id', as: 'TalentSparkConfigurations' });
+  TalentSparkConfiguration.belongsTo(Branch, { foreignKey: 'branch_id', as: 'Branch' });
+
+  Employee.hasMany(TalentSparkConfiguration, { foreignKey: 'created_by', as: 'CreatedTalentSparkConfigurations' });
+  TalentSparkConfiguration.belongsTo(Employee, { foreignKey: 'created_by', as: 'CreatedBy' });
+
+  Employee.hasMany(TalentSparkConfiguration, { foreignKey: 'updated_by', as: 'UpdatedTalentSparkConfigurations' });
+  TalentSparkConfiguration.belongsTo(Employee, { foreignKey: 'updated_by', as: 'UpdatedBy' });
 }
 
 const db = {
@@ -271,6 +282,7 @@ const db = {
   UserInterviewSchedule,
   EmployeeInterviewCalendarEvent,
   UserInterviewCalendarEvent,
+  TalentSparkConfiguration,
   dbType
 };
 

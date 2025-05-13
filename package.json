@@ -7,11 +7,11 @@
     "start": "node index.js",
     "dev": "nodemon index.js",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "db:migrate": "node scripts/migrate.js",
-    "db:seed": "node scripts/seed.js",
-    "db:reset": "npx sequelize-cli db:drop && npx sequelize-cli db:create && npm run db:migrate && npm run db:seed",
-    "db:create": "npx sequelize-cli db:create",
-    "db:drop": "npx sequelize-cli db:drop"
+    "db:migrate": "node scripts/ensure-env.js && node scripts/migrate.js",
+    "db:seed": "node scripts/ensure-env.js && node scripts/seed.js",
+    "db:reset": "node scripts/ensure-env.js && npx sequelize-cli db:drop && npx sequelize-cli db:create && npm run db:migrate && npm run db:seed",
+    "db:create": "node scripts/ensure-env.js && npx sequelize-cli db:create",
+    "db:drop": "node scripts/ensure-env.js && npx sequelize-cli db:drop"
   },
   "keywords": [],
   "author": "",
