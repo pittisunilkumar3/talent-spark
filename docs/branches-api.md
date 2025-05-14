@@ -226,6 +226,9 @@
 
 **Branch Create/Update Payload Fields:**
 ```json
+
+
+
 {
   "name": "Branch Name",
   "code": "BR-001",
@@ -263,3 +266,6 @@
   "is_active": true,
   "created_by": 1
 }
+
+
+

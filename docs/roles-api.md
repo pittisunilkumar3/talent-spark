@@ -120,6 +120,7 @@
     "updated_at": "2023-05-09T10:10:00.000Z"
   }
 }
+
 ```
 
 ### 4. Update Role
@@ -179,6 +180,8 @@
 
 **Role Create/Update Payload Fields:**
 ```json
+
+
 {
   "name": "Role Name",
   "slug": "role-slug",
@@ -190,6 +193,8 @@
   "created_by": 1,
   "updated_by": 1
 }
+
+
 ```
 
 ## Notes
@@ -201,3 +206,5 @@
 5. **Pagination**: The API supports pagination with `page` and `limit` query parameters.
 6. **Filtering**: You can filter roles by `is_active`, `is_system`, and `branch_id`.
 7. **Search**: You can search for roles by name using the `search` query parameter.
+
+
