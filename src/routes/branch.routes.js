@@ -14,7 +14,7 @@ router.post('/', branchController.createBranch);
 // PUT update branch
 router.put('/:id', branchController.updateBranch);
 
-// DELETE branch (soft delete)
+// DELETE branch
 router.delete('/:id', branchController.deleteBranch);
 
 module.exports = router;
