@@ -6,9 +6,12 @@
 
 **URL:** `GET http://localhost:3001/api/roles`
 
-**Query Parameters:** `page`, `limit`, `is_active`, `is_system`, `branch_id`, `search`
+**Query Parameters:** `page`, `limit`, `is_active`, `is_system`, `branch_id`, `search`, `include_deleted`
 
-**Example:** `GET http://localhost:3001/api/roles?page=1&limit=10&is_active=true&is_system=false`
+**Examples:**
+- `GET http://localhost:3001/api/roles?page=1&limit=10&is_active=true&is_system=false` (filters by active and non-system roles)
+- `GET http://localhost:3001/api/roles` (shows all roles, including deleted ones)
+- `GET http://localhost:3001/api/roles?include_deleted=false` (excludes soft-deleted roles)
 
 **Response:**
 ```json
@@ -172,9 +175,22 @@
 ```json
 {
   "success": true,
-  "message": "Role deleted successfully"
+  "message": "Role deleted successfully",
+  "result": {
+    "fieldCount": 0,
+    "affectedRows": 1,
+    "insertId": 0,
+    "info": "",
+    "serverStatus": 2,
+    "warningStatus": 0
+  }
 }
 ```
+
+**Notes:**
+- The `result` object contains information about the database operation
+- `affectedRows` indicates how many records were deleted (should be 1 for a successful delete)
+- If the role doesn't exist, the operation will still succeed but `affectedRows` will be 0
 
 ## Full Payload Fields
 
@@ -202,9 +218,11 @@
 1. **System Roles**: Roles with `is_system` set to `true` cannot be modified or deleted.
 2. **Branch Association**: Roles can be associated with a specific branch by setting the `branch_id` field.
 3. **Priority**: Roles with higher priority values take precedence in case of conflicts.
-4. **Soft Delete**: When a role is deleted, it is not removed from the database but marked as deleted by setting the `deleted_at` field.
+4. **Mixed Delete Strategy**: The API supports both soft deletes (roles are marked with a `deleted_at` timestamp) and hard deletes (roles are permanently removed). The current implementation uses hard deletes.
 5. **Pagination**: The API supports pagination with `page` and `limit` query parameters.
-6. **Filtering**: You can filter roles by `is_active`, `is_system`, and `branch_id`.
+6. **Filtering**: You can filter roles by `is_active`, `is_system`, and `branch_id`. By default, all roles (including deleted ones) are shown. Use `include_deleted=false` to exclude soft-deleted roles.
 7. **Search**: You can search for roles by name using the `search` query parameter.
+
+
 
 

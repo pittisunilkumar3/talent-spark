@@ -5,7 +5,7 @@ let Role;
 if (dbType === 'mongodb') {
   // MongoDB Schema
   const Schema = mongoose.Schema;
-  
+
   const roleSchema = new Schema({
     name: {
       type: String,
@@ -56,13 +56,13 @@ if (dbType === 'mongodb') {
     },
     collection: 'roles'
   });
-  
+
   // Add indexes
   roleSchema.index({ is_active: 1 });
   roleSchema.index({ is_system: 1 });
   roleSchema.index({ branch_id: 1 });
   roleSchema.index({ priority: 1 });
-  
+
   Role = mongoose.model('Role', roleSchema);
 } else {
   // Sequelize Model (MySQL or PostgreSQL)
@@ -128,7 +128,11 @@ if (dbType === 'mongodb') {
     }
   }, {
     tableName: 'roles',
-    timestamps: false,
+    timestamps: true,
+    createdAt: 'created_at',
+    updatedAt: 'updated_at',
+    deletedAt: 'deleted_at',
+    paranoid: true, // Enable soft deletes
     indexes: [
       { fields: ['is_active'] },
       { fields: ['is_system'] },
