@@ -1,14 +1,44 @@
 # Employees API
 
-## API URLs and Payloads
+## Overview
+
+The Employees API provides endpoints to manage employee data in the TalentSpark system. It supports creating, retrieving, updating, and deleting employee records with comprehensive personal, professional, and financial information.
+
+## Base URL
+
+All API endpoints are relative to: `http://localhost:3001/api/employees`
+
+## Authentication
+
+All endpoints require authentication. Include the authentication token in the request header:
+
+```
+Authorization: Bearer {your_token}
+```
+
+## API Endpoints
 
 ### 1. Get All Employees
 
-**URL:** `GET http://localhost:3001/api/employees`
+**URL:** `GET /employees`
 
-**Query Parameters:** `page`, `limit`, `is_active`, `branch_id`, `department_id`, `designation_id`, `employment_status`, `search`
+**Query Parameters:**
 
-**Example:** `GET http://localhost:3001/api/employees?page=1&limit=10&is_active=true&branch_id=1&department_id=2`
+| Parameter | Type | Description |
+|-----------|------|-------------|
+| page | Integer | Page number for pagination (default: 1) |
+| limit | Integer | Number of records per page (default: 10) |
+| is_active | Boolean | Filter by active status (true/false) |
+| branch_id | Integer | Filter by branch ID |
+| department_id | Integer | Filter by department ID |
+| designation_id | Integer | Filter by designation ID |
+| employment_status | String | Filter by employment status (full-time, part-time, contract, intern, terminated) |
+| search | String | Search by first name, last name, employee ID, or email |
+
+**Example Request:**
+```
+GET http://localhost:3001/api/employees?page=1&limit=10&is_active=true&branch_id=1&department_id=2&search=john
+```
 
 **Response:**
 ```json
@@ -97,9 +127,18 @@
 
 ### 2. Get Employee by ID
 
-**URL:** `GET http://localhost:3001/api/employees/:id`
+**URL:** `GET /employees/:id`
 
-**Example:** `GET http://localhost:3001/api/employees/1`
+**Parameters:**
+
+| Parameter | Type | Description |
+|-----------|------|-------------|
+| id | Integer | Employee ID (required) |
+
+**Example Request:**
+```
+GET http://localhost:3001/api/employees/1
+```
 
 **Response:**
 ```json
@@ -177,11 +216,71 @@
 }
 ```
 
+**Error Responses:**
+
+- **404 Not Found** - If employee with the specified ID does not exist:
+```json
+{
+  "success": false,
+  "message": "Employee not found"
+}
+```
+
 ### 3. Create Employee
 
-**URL:** `POST http://localhost:3001/api/employees`
+**URL:** `POST /employees`
 
-**Payload:**
+**Request Body:**
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| employee_id | String | Yes | Unique identifier for the employee |
+| first_name | String | Yes | Employee's first name |
+| last_name | String | No | Employee's last name |
+| email | String | No | Employee's email address (must be unique) |
+| phone | String | No | Employee's phone number |
+| password | String | Yes | Employee's password (will be hashed) |
+| gender | String | No | Employee's gender (male, female, other) |
+| dob | Date | No | Date of birth (YYYY-MM-DD) |
+| photo | String | No | URL or path to employee's photo |
+| branch_id | Integer | No | ID of the branch employee belongs to |
+| department_id | Integer | No | ID of the department employee belongs to |
+| designation_id | Integer | No | ID of the employee's designation |
+| position | String | No | Employee's position title |
+| qualification | String | No | Employee's educational qualifications |
+| work_experience | String | No | Employee's previous work experience |
+| hire_date | Date | No | Date of hiring (YYYY-MM-DD) |
+| employment_status | String | No | Employment status (full-time, part-time, contract, intern, terminated) |
+| contract_type | String | No | Type of employment contract |
+| work_shift | String | No | Employee's work shift details |
+| current_location | String | No | Employee's current work location |
+| reporting_to | Integer | No | ID of the employee's manager |
+| emergency_contact | String | No | Emergency contact number |
+| emergency_contact_relation | String | No | Relationship with emergency contact |
+| marital_status | String | No | Employee's marital status |
+| father_name | String | No | Employee's father's name |
+| mother_name | String | No | Employee's mother's name |
+| local_address | String | No | Employee's local address |
+| permanent_address | String | No | Employee's permanent address |
+| bank_account_name | String | No | Name on bank account |
+| bank_account_no | String | No | Bank account number |
+| bank_name | String | No | Name of the bank |
+| bank_branch | String | No | Bank branch name |
+| ifsc_code | String | No | IFSC code for bank transfers |
+| basic_salary | Number | No | Employee's basic salary |
+| facebook | String | No | Facebook profile URL |
+| twitter | String | No | Twitter profile URL |
+| linkedin | String | No | LinkedIn profile URL |
+| instagram | String | No | Instagram profile URL |
+| resume | String | No | URL or path to employee's resume |
+| joining_letter | String | No | URL or path to joining letter |
+| other_documents | String | No | URLs or paths to other documents |
+| notes | String | No | Additional notes about the employee |
+| is_superadmin | Boolean | No | Whether employee is a superadmin (default: false) |
+| is_active | Boolean | No | Whether employee is active (default: true) |
+| created_by | Integer | No | ID of the user who created this record |
+
+**Example Request:**
 ```json
 {
   "employee_id": "EMP004",
@@ -247,13 +346,39 @@
 }
 ```
 
+**Error Responses:**
+
+- **400 Bad Request** - If required fields are missing:
+```json
+{
+  "success": false,
+  "message": "Employee ID, first name, and password are required"
+}
+```
+
+- **400 Bad Request** - If employee with same ID or email already exists:
+```json
+{
+  "success": false,
+  "message": "Employee with this employee ID or email already exists"
+}
+```
+
 ### 4. Update Employee
 
-**URL:** `PUT http://localhost:3001/api/employees/:id`
+**URL:** `PUT /employees/:id`
 
-**Example:** `PUT http://localhost:3001/api/employees/4`
+**Parameters:**
 
-**Payload:**
+| Parameter | Type | Description |
+|-----------|------|-------------|
+| id | Integer | Employee ID (required) |
+
+**Request Body:**
+
+Any of the fields listed in the Create Employee endpoint can be included in the update request. Only the fields that are included will be updated.
+
+**Example Request:**
 ```json
 {
   "designation_id": 5,
@@ -313,11 +438,38 @@
 }
 ```
 
+**Error Responses:**
+
+- **404 Not Found** - If employee with the specified ID does not exist:
+```json
+{
+  "success": false,
+  "message": "Employee not found"
+}
+```
+
+- **400 Bad Request** - If employee with same ID or email already exists:
+```json
+{
+  "success": false,
+  "message": "Employee with this employee ID or email already exists"
+}
+```
+
 ### 5. Delete Employee
 
-**URL:** `DELETE http://localhost:3001/api/employees/:id`
+**URL:** `DELETE /employees/:id`
 
-**Example:** `DELETE http://localhost:3001/api/employees/4`
+**Parameters:**
+
+| Parameter | Type | Description |
+|-----------|------|-------------|
+| id | Integer | Employee ID (required) |
+
+**Example Request:**
+```
+DELETE http://localhost:3001/api/employees/4
+```
 
 **Response:**
 ```json
@@ -326,6 +478,112 @@
   "message": "Employee deleted successfully"
 }
 ```
+
+**Error Responses:**
+
+- **404 Not Found** - If employee with the specified ID does not exist:
+```json
+{
+  "success": false,
+  "message": "Employee not found"
+}
+```
+
+- **400 Bad Request** - If employee has subordinates:
+```json
+{
+  "success": false,
+  "message": "Cannot delete employee with subordinates. Please reassign subordinates first."
+}
+```
+
+## Related APIs
+
+### Employee Skills API
+
+For managing employee skills, use the Employee Skills API:
+- `GET /employee-skills/employee/:employeeId` - Get all skills for a specific employee
+- `GET /employee-skills/:id` - Get a specific skill by ID
+- `POST /employee-skills/employee/:employeeId` - Create a new skill for an employee
+- `PUT /employee-skills/:id` - Update an employee skill
+- `DELETE /employee-skills/:id` - Delete an employee skill
+
+### Employee Roles API
+
+For managing employee roles, use the Employee Roles API:
+- `GET /employee-roles` - Get all employee roles
+- `GET /employee-roles/employee/:employeeId` - Get roles by employee ID
+- `GET /employee-roles/role/:roleId` - Get employees by role ID
+- `GET /employee-roles/:id` - Get employee role by ID
+- `POST /employee-roles` - Create new employee role
+- `PUT /employee-roles/:id` - Update employee role
+- `DELETE /employee-roles/:id` - Delete employee role
+
+### Employee Interview Schedules API
+
+For managing employee interview schedules, use the Employee Interview Schedules API:
+- `GET /employee-interview-schedules` - Get all employee interview schedules
+- `GET /employee-interview-schedules/:id` - Get employee interview schedule by ID
+- `GET /employee-interview-schedules/employee/:employeeId` - Get interview schedules by employee ID
+- `POST /employee-interview-schedules` - Create new employee interview schedule
+- `PUT /employee-interview-schedules/:id` - Update employee interview schedule
+- `DELETE /employee-interview-schedules/:id` - Delete employee interview schedule
+
+## Data Model
+
+### Employee Schema
+
+| Field | Type | Required | Default | Description |
+|-------|------|----------|---------|-------------|
+| id | Integer | Auto | Auto | Primary key |
+| employee_id | String | Yes | - | Unique identifier for the employee |
+| first_name | String | Yes | - | Employee's first name |
+| last_name | String | No | null | Employee's last name |
+| email | String | No | null | Employee's email address (unique) |
+| phone | String | No | null | Employee's phone number |
+| password | String | Yes | - | Employee's password (hashed) |
+| gender | Enum | No | null | 'male', 'female', 'other' |
+| dob | Date | No | null | Date of birth |
+| photo | String | No | null | URL or path to employee's photo |
+| branch_id | Integer | No | null | Foreign key to branches table |
+| department_id | Integer | No | null | Foreign key to departments table |
+| designation_id | Integer | No | null | Foreign key to designations table |
+| position | String | No | null | Employee's position title |
+| qualification | String | No | null | Educational qualifications |
+| work_experience | String | No | null | Previous work experience |
+| hire_date | Date | No | null | Date of hiring |
+| date_of_leaving | Date | No | null | Date of leaving (for ex-employees) |
+| employment_status | Enum | No | 'full-time' | 'full-time', 'part-time', 'contract', 'intern', 'terminated' |
+| contract_type | String | No | null | Type of employment contract |
+| work_shift | String | No | null | Work shift details |
+| current_location | String | No | null | Current work location |
+| reporting_to | Integer | No | null | Foreign key to employees table (manager) |
+| emergency_contact | String | No | null | Emergency contact number |
+| emergency_contact_relation | String | No | null | Relationship with emergency contact |
+| marital_status | String | No | null | Marital status |
+| father_name | String | No | null | Father's name |
+| mother_name | String | No | null | Mother's name |
+| local_address | String | No | null | Local address |
+| permanent_address | String | No | null | Permanent address |
+| bank_account_name | String | No | null | Name on bank account |
+| bank_account_no | String | No | null | Bank account number |
+| bank_name | String | No | null | Name of the bank |
+| bank_branch | String | No | null | Bank branch name |
+| ifsc_code | String | No | null | IFSC code for bank transfers |
+| basic_salary | Number | No | null | Basic salary |
+| facebook | String | No | null | Facebook profile URL |
+| twitter | String | No | null | Twitter profile URL |
+| linkedin | String | No | null | LinkedIn profile URL |
+| instagram | String | No | null | Instagram profile URL |
+| resume | String | No | null | URL or path to resume |
+| joining_letter | String | No | null | URL or path to joining letter |
+| other_documents | String | No | null | URLs or paths to other documents |
+| notes | String | No | null | Additional notes |
+| is_superadmin | Boolean | Yes | false | Whether employee is a superadmin |
+| is_active | Boolean | Yes | true | Whether employee is active |
+| created_by | Integer | No | null | ID of the user who created this record |
+| created_at | DateTime | Auto | Current | Record creation timestamp |
+| updated_at | DateTime | Auto | Current | Record update timestamp |
 
 ## Notes
 
@@ -337,19 +595,12 @@
    - Employees belong to a designation (optional)
    - Employees can have a reporting manager (optional)
    - Employees can have subordinates
+   - Employees can have multiple skills
+   - Employees can have multiple roles
+   - Employees can have multiple interview schedules
 4. **Soft Delete**: When an employee is deleted, they are not removed from the database but marked as inactive by setting `is_active` to false and setting the `date_of_leaving` field.
 5. **Validation**: An employee cannot be deleted if they have subordinates reporting to them.
 6. **Superadmin**: Employees with `is_superadmin` set to true have access to all branches.
 7. **Search**: You can search for employees by first name, last name, employee ID, or email using the `search` query parameter.
 8. **Pagination**: The API supports pagination with `page` and `limit` query parameters.
 9. **Filtering**: You can filter employees by `is_active`, `branch_id`, `department_id`, `designation_id`, and `employment_status`.
-
-## Required Fields for Creating an Employee
-
-- `employee_id`: Unique identifier for the employee
-- `first_name`: Employee's first name
-- `password`: Employee's password (will be hashed)
-
-## Optional Fields
-
-All other fields are optional. See the database schema for the complete list of fields.

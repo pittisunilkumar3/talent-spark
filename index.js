@@ -35,6 +35,7 @@ const userInterviewScheduleRoutes = require('./src/routes/user_interview_schedul
 const employeeInterviewCalendarEventRoutes = require('./src/routes/employee_interview_calendar_event.routes');
 const userInterviewCalendarEventRoutes = require('./src/routes/user_interview_calendar_event.routes');
 const talentSparkConfigurationRoutes = require('./src/routes/talent_spark_configuration.routes');
+const branchDataRoutes = require('./src/routes/branch_data.routes');
 
 // Initialize express app
 const app = express();
@@ -82,6 +83,7 @@ app.use('/api/user-interview-schedules', userInterviewScheduleRoutes);
 app.use('/api/employee-interview-calendar-events', employeeInterviewCalendarEventRoutes);
 app.use('/api/user-interview-calendar-events', userInterviewCalendarEventRoutes);
 app.use('/api/talent-spark-configurations', talentSparkConfigurationRoutes);
+app.use('/api', branchDataRoutes);
 
 // Error handling middleware
 app.use((err, req, res, next) => {

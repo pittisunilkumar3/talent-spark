@@ -2,7 +2,7 @@ const Employee = require('../models/employee.model');
 const Branch = require('../models/branch.model');
 const Department = require('../models/department.model');
 const Designation = require('../models/designation.model');
-const { dbType } = require('../config/database');
+const { dbType, Sequelize } = require('../config/database');
 const bcrypt = require('bcrypt');
 
 // Get all employees with pagination and filtering
@@ -90,7 +90,7 @@ exports.getAllEmployees = async (req, res) => {
 
       // Add search functionality for SQL databases
       if (req.query.search) {
-        const { Op } = Employee.sequelize;
+        const Op = Sequelize.Op;
         queryOptions.where = {
           ...queryOptions.where,
           [Op.or]: [
@@ -226,7 +226,7 @@ exports.createEmployee = async (req, res) => {
         ]
       });
     } else {
-      const { Op } = Employee.sequelize;
+      const Op = Sequelize.Op;
       existingEmployee = await Employee.findOne({
         where: {
           [Op.or]: [
@@ -425,7 +425,7 @@ exports.updateEmployee = async (req, res) => {
 
       // Check if employee_id or email is being changed and if it already exists
       if (updateData.employee_id || updateData.email) {
-        const { Op } = Employee.sequelize;
+        const Op = Sequelize.Op;
         const existingEmployee = await Employee.findOne({
           where: {
             [Op.or]: [

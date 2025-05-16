@@ -1,0 +1,94 @@
+const Department = require('../models/department.model');
+const Designation = require('../models/designation.model');
+const Branch = require('../models/branch.model');
+const { dbType, Sequelize } = require('../config/database');
+const { Op } = Sequelize || {};
+
+/**
+ * Get departments and designations by branch ID
+ * @param {Object} req - Express request object
+ * @param {Object} res - Express response object
+ * @returns {Object} JSON response with departments and designations
+ */
+exports.getDepartmentsAndDesignationsByBranchId = async (req, res) => {
+  try {
+    const { branchId } = req.params;
+    
+    // Validate branch ID
+    if (!branchId) {
+      return res.status(400).json({
+        success: false,
+        message: 'Branch ID is required'
+      });
+    }
+
+    // Check if branch exists
+    let branch;
+    if (dbType === 'mongodb') {
+      branch = await Branch.findById(branchId);
+    } else {
+      branch = await Branch.findByPk(parseInt(branchId));
+    }
+
+    if (!branch) {
+      return res.status(404).json({
+        success: false,
+        message: 'Branch not found'
+      });
+    }
+
+    // Get departments for the branch
+    let departments;
+    if (dbType === 'mongodb') {
+      departments = await Department.find({
+        branch_id: parseInt(branchId),
+        is_active: true
+      }).sort({ name: 1 });
+    } else {
+      departments = await Department.findAll({
+        where: {
+          branch_id: parseInt(branchId),
+          is_active: true
+        },
+        order: [['name', 'ASC']]
+      });
+    }
+
+    // Get designations for the branch
+    let designations;
+    if (dbType === 'mongodb') {
+      designations = await Designation.find({
+        branch_id: parseInt(branchId),
+        is_active: true
+      }).sort({ name: 1 });
+    } else {
+      designations = await Designation.findAll({
+        where: {
+          branch_id: parseInt(branchId),
+          is_active: true
+        },
+        order: [['name', 'ASC']]
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      data: {
+        branch: {
+          id: branch.id,
+          name: branch.name,
+          code: branch.code
+        },
+        departments,
+        designations
+      }
+    });
+  } catch (error) {
+    console.error('Error fetching departments and designations by branch ID:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Failed to fetch departments and designations',
+      error: error.message
+    });
+  }
+};
