@@ -821,7 +821,7 @@ exports.refreshToken = async (req, res) => {
     if (!decoded) {
       return res.status(401).json({
         success: false,
-        message: 'Invalid or expired refresh token'
+        message: 'Authentication failed'
       });
     }
 
@@ -1140,7 +1140,7 @@ exports.resetPassword = async (req, res) => {
     if (!user) {
       return res.status(400).json({
         success: false,
-        message: 'Invalid or expired token'
+        message: 'Authentication failed'
       });
     }
 

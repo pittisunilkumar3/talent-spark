@@ -10,11 +10,7 @@ http://localhost:3001/api/permission-groups-with-categories
 
 ## Authentication
 
-All API endpoints require authentication. Include the authentication token in the request header:
-
-```
-Authorization: Bearer YOUR_TOKEN_HERE
-```
+All API endpoints require authentication.
 
 ## API Endpoints
 

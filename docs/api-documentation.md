@@ -10,11 +10,7 @@ http://localhost:3001/api
 
 ## Authentication
 
-Most API endpoints require authentication. Include the authentication token in the request header:
-
-```
-Authorization: Bearer YOUR_TOKEN_HERE
-```
+Most API endpoints require authentication.
 
 ## Available APIs
 

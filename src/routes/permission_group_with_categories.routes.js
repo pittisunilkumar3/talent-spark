@@ -1,10 +1,6 @@
 const express = require('express');
 const router = express.Router();
 const permissionGroupWithCategoriesController = require('../controllers/permission_group_with_categories.controller');
-const { authenticate } = require('../middleware/auth.middleware');
-
-// Apply authentication middleware to all routes
-router.use(authenticate);
 
 // GET all permission groups with their categories
 router.get('/', permissionGroupWithCategoriesController.getAllGroupsWithCategories);

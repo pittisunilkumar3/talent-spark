@@ -10,11 +10,7 @@ All API endpoints are relative to: `http://localhost:3001/api`
 
 ## Authentication
 
-All endpoints require authentication. Include the authentication token in the request header:
-
-```
-Authorization: Bearer {your_token}
-```
+No authentication is required for these endpoints.
 
 ## API Endpoints
 
@@ -30,7 +26,7 @@ Retrieves all departments and designations associated with a specific branch.
 |-----------|------|-------------|
 | branchId | Integer | Branch ID (required) |
 
-**Example Request:** 
+**Example Request:**
 ```
 GET http://localhost:3001/api/branch/1/departments-designations
 ```

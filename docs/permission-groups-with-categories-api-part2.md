@@ -1,5 +1,9 @@
 # Permission Groups with Categories API Documentation (Continued)
 
+## Authentication
+
+All endpoints require authentication.
+
 ## API Endpoints (Continued)
 
 ### 3. Create Permission Group with Categories

@@ -17,13 +17,13 @@ exports.authenticate = async (req, res, next) => {
     }
 
     const token = authHeader.split(' ')[1];
-    
+
     // Verify token
     const decoded = verifyToken(token);
     if (!decoded) {
       return res.status(401).json({
         success: false,
-        message: 'Invalid or expired token'
+        message: 'Authentication failed'
       });
     }
 
