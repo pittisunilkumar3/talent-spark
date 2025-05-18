@@ -22,6 +22,7 @@ Welcome to the Talent Spark API documentation. This folder contains detailed doc
 - [Email Templates API Documentation](./email-template-api.md) - Documentation for the Email Templates API
 - [User Skills API Documentation](./user-skills-api.md) - Documentation for the User Skills API
 - [Employee Skills API Documentation](./employee-skills-api.md) - Documentation for the Employee Skills API
+- [Employee Authentication API Documentation](./employee-auth-api.md) - Documentation for the Employee Authentication API
 
 ## Getting Started
 

@@ -38,9 +38,24 @@ const verifyToken = (token) => {
   }
 };
 
+/**
+ * Verify JWT refresh token
+ * @param {String} token - JWT refresh token to verify
+ * @returns {Object|null} Decoded token payload or null if invalid
+ */
+const verifyRefreshToken = (token) => {
+  try {
+    return jwt.verify(token, JWT_SECRET);
+  } catch (error) {
+    console.error('JWT refresh token verification error:', error.message);
+    return null;
+  }
+};
+
 module.exports = {
   generateToken,
   generateRefreshToken,
   verifyToken,
+  verifyRefreshToken,
   JWT_SECRET
 };

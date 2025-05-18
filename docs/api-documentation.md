@@ -10,7 +10,15 @@ http://localhost:3001/api
 
 ## Authentication
 
-Most API endpoints require authentication.
+Most API endpoints require authentication. The system supports both user and employee authentication.
+
+### User Authentication
+
+Users can authenticate using the `/api/users/login` endpoint.
+
+### Employee Authentication
+
+Employees can authenticate using the `/api/employee-auth/login` endpoint. An employee login page is available at `/employee-login.html`.
 
 ## Available APIs
 
@@ -38,6 +46,7 @@ Most API endpoints require authentication.
 | Email Templates API | API for managing email templates | [Email Templates API Documentation](./email-template-api.md) |
 | User Skills API | API for managing user skills | [User Skills API Documentation](./user-skills-api.md) |
 | Employee Skills API | API for managing employee skills | [Employee Skills API Documentation](./employee-skills-api.md) |
+| Employee Authentication API | API for employee authentication | [Employee Authentication API Documentation](./employee-auth-api.md) |
 
 ## Error Handling
 
