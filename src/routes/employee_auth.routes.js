@@ -10,6 +10,18 @@ router.post('/login', employeeAuthController.login);
 // Refresh token
 router.post('/refresh-token', employeeAuthController.refreshToken);
 
+// Create test employee (development only)
+router.post('/create-test-employee', employeeAuthController.createTestEmployee);
+
+// Reset employee password (development only)
+router.post('/reset-password', employeeAuthController.resetPassword);
+
+// Test login credentials (development only)
+router.post('/test-login-credentials', employeeAuthController.testLoginCredentials);
+
+// Fix specific user password (development only)
+router.post('/fix-specific-user-password', employeeAuthController.fixSpecificUserPassword);
+
 // Protected routes - require employee authentication
 // Check if employee is active/logged in
 router.get('/status', authenticateEmployee, employeeAuthController.checkStatus);

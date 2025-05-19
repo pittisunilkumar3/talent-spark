@@ -34,6 +34,8 @@ Authenticates an employee and returns a JWT token.
 }
 ```
 
+> **Note:** To create a test employee with these credentials for development purposes, use the Create Test Employee endpoint described below.
+
 **Response:**
 ```json
 {
@@ -231,6 +233,198 @@ Logs out the employee and updates the last logout timestamp.
   {
     "success": false,
     "message": "Authentication failed"
+  }
+  ```
+
+### 6. Create Test Employee (Development Only)
+
+Creates a test employee account with the email "employee@example.com" and password "password123" for testing purposes.
+
+**URL:** `POST /api/employee-auth/create-test-employee`
+
+**Authentication Required:** No
+
+**Response (New Employee):**
+```json
+{
+  "success": true,
+  "message": "Test employee created successfully",
+  "data": {
+    "employee": {
+      "id": 1,
+      "employee_id": "TEST001",
+      "first_name": "Test",
+      "last_name": "Employee",
+      "email": "employee@example.com",
+      "phone": "+1234567890",
+      "gender": "male",
+      "branch_id": 1,
+      "department_id": 1,
+      "designation_id": 1,
+      "position": "Tester",
+      "employment_status": "full-time",
+      "is_active": true,
+      "created_at": "2023-07-15T10:30:45.000Z",
+      "updated_at": "2023-07-15T10:30:45.000Z"
+    },
+    "login": {
+      "email": "employee@example.com",
+      "password": "password123"
+    }
+  }
+}
+```
+
+**Response (Employee Already Exists):**
+```json
+{
+  "success": true,
+  "message": "Test employee already exists",
+  "data": {
+    "id": 1,
+    "email": "employee@example.com",
+    "password": "password123"
+  }
+}
+```
+
+**Error Responses:**
+
+- **Production Environment:**
+  ```json
+  {
+    "success": false,
+    "message": "This endpoint is only available in development mode"
+  }
+  ```
+
+### 7. Reset Employee Password (Development Only)
+
+Resets the password for an existing employee account. Useful for testing when you don't know the current password.
+
+**URL:** `POST /api/employee-auth/reset-password`
+
+**Authentication Required:** No
+
+**Payload:**
+```json
+{
+  "email": "pittisunilkumar3@gmail.com",
+  "newPassword": "password123"
+}
+```
+
+**Response:**
+```json
+{
+  "success": true,
+  "message": "Password reset successfully",
+  "data": {
+    "email": "pittisunilkumar3@gmail.com",
+    "newPassword": "password123"
+  }
+}
+```
+
+**Error Responses:**
+
+- **Employee Not Found:**
+  ```json
+  {
+    "success": false,
+    "message": "Employee not found"
+  }
+  ```
+
+- **Missing Fields:**
+  ```json
+  {
+    "success": false,
+    "message": "Email and new password are required"
+  }
+  ```
+
+- **Production Environment:**
+  ```json
+  {
+    "success": false,
+    "message": "This endpoint is only available in development mode"
+  }
+  ```
+
+### 8. Test Login Credentials (Development Only)
+
+Tests if the provided credentials would work for login without actually logging in. Useful for debugging login issues.
+
+**URL:** `POST /api/employee-auth/test-login-credentials`
+
+**Authentication Required:** No
+
+**Payload:**
+```json
+{
+  "email": "pittisunilkumar3@gmail.com",
+  "password": "password123"
+}
+```
+
+**Response (Success):**
+```json
+{
+  "success": true,
+  "message": "Credentials are valid",
+  "data": {
+    "email": "pittisunilkumar3@gmail.com",
+    "exists": true,
+    "has_password": true,
+    "password_valid": true,
+    "is_active": true
+  }
+}
+```
+
+**Response (Invalid Password):**
+```json
+{
+  "success": true,
+  "message": "Password is incorrect",
+  "data": {
+    "email": "pittisunilkumar3@gmail.com",
+    "exists": true,
+    "has_password": true,
+    "password_valid": false,
+    "is_active": true
+  }
+}
+```
+
+**Response (User Not Found):**
+```json
+{
+  "success": false,
+  "message": "No employee found with this email",
+  "data": {
+    "email": "nonexistent@example.com",
+    "exists": false
+  }
+}
+```
+
+**Error Responses:**
+
+- **Missing Fields:**
+  ```json
+  {
+    "success": false,
+    "message": "Email and password are required"
+  }
+  ```
+
+- **Production Environment:**
+  ```json
+  {
+    "success": false,
+    "message": "This endpoint is only available in development mode"
   }
   ```
 
