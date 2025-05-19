@@ -101,7 +101,9 @@ testConnection()
   .then(connected => {
     if (connected) {
       // Sync database models (only for SQL databases)
-      return syncDatabase();
+      // Use force:false, alter:false to avoid modifying existing tables
+      // This prevents issues with virtual fields and other complex column types
+      return syncDatabase({ force: false, alter: false });
     } else {
       throw new Error(`Failed to connect to the ${dbType} database`);
     }

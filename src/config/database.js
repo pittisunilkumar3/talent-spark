@@ -64,7 +64,14 @@ const getDbConnection = () => {
 // Sync database (only for Sequelize)
 const syncDatabase = async (options = {}) => {
   if (dbType !== 'mongodb' && sequelize) {
-    return sequelize.sync(options);
+    // Default to not altering tables to avoid issues with virtual fields
+    // and other complex column types
+    const syncOptions = {
+      ...options,
+      force: options.force !== undefined ? options.force : false,
+      alter: options.alter !== undefined ? options.alter : false
+    };
+    return sequelize.sync(syncOptions);
   }
   return Promise.resolve();
 };

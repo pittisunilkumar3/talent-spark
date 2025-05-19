@@ -6,7 +6,7 @@ let SmsTemplate;
 if (dbType === 'mongodb') {
   // MongoDB Schema
   const Schema = mongoose.Schema;
-  
+
   const smsTemplateSchema = new Schema({
     _id: {
       type: String,
@@ -120,13 +120,9 @@ if (dbType === 'mongodb') {
       defaultValue: true
     },
     character_count: {
-      type: Sequelize.DataTypes.VIRTUAL,
-      get() {
-        return this.content ? this.content.length : 0;
-      },
-      set() {
-        throw new Error('Do not try to set the `character_count` value!');
-      }
+      type: Sequelize.DataTypes.INTEGER,
+      allowNull: true,
+      comment: 'For SMS segment calculation'
     },
     created_by: {
       type: Sequelize.DataTypes.INTEGER,
@@ -180,7 +176,19 @@ if (dbType === 'mongodb') {
         fields: ['is_active'],
         name: 'is_active_idx'
       }
-    ]
+    ],
+    hooks: {
+      beforeCreate: (template) => {
+        if (template.content) {
+          template.character_count = template.content.length;
+        }
+      },
+      beforeUpdate: (template) => {
+        if (template.content) {
+          template.character_count = template.content.length;
+        }
+      }
+    }
   });
 }
 

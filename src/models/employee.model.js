@@ -136,7 +136,8 @@ if (dbType === 'mongodb') {
     id: {
       type: Sequelize.DataTypes.INTEGER,
       primaryKey: true,
-      autoIncrement: true
+      autoIncrement: true,
+      allowNull: false
     },
     employee_id: {
       type: Sequelize.DataTypes.STRING(50),

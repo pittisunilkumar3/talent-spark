@@ -2,7 +2,7 @@ const Employee = require('../models/employee.model');
 const Branch = require('../models/branch.model');
 const Department = require('../models/department.model');
 const Designation = require('../models/designation.model');
-const { dbType, Sequelize } = require('../config/database');
+const { dbType, Sequelize, sequelize } = require('../config/database');
 const bcrypt = require('bcrypt');
 
 // Get all employees with pagination and filtering
@@ -288,11 +288,23 @@ exports.createEmployee = async (req, res) => {
       }
     }
 
+    // Hash password
+    if (!password) {
+      return res.status(400).json({
+        success: false,
+        message: 'Password is required'
+      });
+    }
+
+    // Hash the password
+    const hashedPassword = await bcrypt.hash(password, 10);
+    console.log('Password hashed successfully');
+
     let newEmployee;
 
     if (dbType === 'mongodb') {
       newEmployee = new Employee({
-        employee_id, first_name, last_name, email, phone, password,
+        employee_id, first_name, last_name, email, phone, password: hashedPassword,
         gender, dob, photo, branch_id, department_id, designation_id,
         position, qualification, work_experience, hire_date,
         employment_status, contract_type, work_shift, current_location,
@@ -310,19 +322,45 @@ exports.createEmployee = async (req, res) => {
       newEmployee = newEmployee.toObject();
       delete newEmployee.password;
     } else {
-      newEmployee = await Employee.create({
-        employee_id, first_name, last_name, email, phone, password,
-        gender, dob, photo, branch_id, department_id, designation_id,
-        position, qualification, work_experience, hire_date,
-        employment_status, contract_type, work_shift, current_location,
-        reporting_to, emergency_contact, emergency_contact_relation,
-        marital_status, father_name, mother_name, local_address,
-        permanent_address, bank_account_name, bank_account_no,
-        bank_name, bank_branch, ifsc_code, basic_salary,
-        facebook, twitter, linkedin, instagram, resume,
-        joining_letter, other_documents, notes, is_superadmin,
-        is_active, created_by
-      });
+      try {
+        // Create employee data object without id field to let the database handle auto-increment
+        const employeeData = {
+          employee_id, first_name, last_name, email, phone, password: hashedPassword,
+          gender, dob, photo, branch_id, department_id, designation_id,
+          position, qualification, work_experience, hire_date,
+          employment_status, contract_type, work_shift, current_location,
+          reporting_to, emergency_contact, emergency_contact_relation,
+          marital_status, father_name, mother_name, local_address,
+          permanent_address, bank_account_name, bank_account_no,
+          bank_name, bank_branch, ifsc_code, basic_salary,
+          facebook, twitter, linkedin, instagram, resume,
+          joining_letter, other_documents, notes, is_superadmin,
+          is_active, created_by
+        };
+
+        // Explicitly ensure id is not included
+        delete employeeData.id;
+
+        // For MySQL, use a direct approach to ensure auto-increment works
+        if (dbType === 'mysql') {
+          // First, check if the table exists and has the correct auto-increment setup
+          await sequelize.query(`
+            ALTER TABLE employees MODIFY COLUMN id INT AUTO_INCREMENT PRIMARY KEY
+          `).catch(err => {
+            console.log('Auto-increment already set up or table structure cannot be modified:', err.message);
+          });
+
+          // Use standard Sequelize create for MySQL as well
+          newEmployee = await Employee.create(employeeData);
+        } else {
+          // Use Sequelize create for other database types
+          newEmployee = await Employee.create(employeeData);
+        }
+      } catch (error) {
+        console.error('Error creating employee:', error);
+        // Re-throw the error to be caught by the outer try-catch
+        throw error;
+      }
 
       // Fetch the employee with relations but without password
       newEmployee = await Employee.findByPk(newEmployee.id, {
